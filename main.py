@@ -19,3 +19,19 @@ for row in reader:
     data.append([date, open_price, high, low, close, volume, adj_close])
 
 print(data[0])
+
+#compute and store daily stock returns
+
+returns_path = "data_return.csv"
+file = open(returns_path, 'w')
+writer = csv.writer(file)
+writer.writerow(["Date","Return"])
+for i in range(len(data) - 1):
+    todays_row = data[i]
+    todays_date = todays_row[0]
+    todays_price = todays_row[-1]
+    yesterdays_row = data[i+1]
+    yesterdays_price = yesterdays_row[-1]
+    daily_return = (todays_price - yesterdays_price) / yesterdays_price
+    formated_date = todays_date.strftime('%m/%d/%Y')
+    writer.writerow([formated_date, daily_return])
